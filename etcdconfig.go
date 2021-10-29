@@ -3,6 +3,7 @@ package etcdconfig
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -15,6 +16,10 @@ var (
 	etcdClient    *clientv3.Client
 )
 
+func init() {
+	fmt.Println("init etcdconfig")
+	InitModels(etcdEndpoints)
+}
 func InitModels(aEtcdEndpoints []string) {
 	var err error
 	if len(aEtcdEndpoints) > 0 {
