@@ -37,7 +37,8 @@ func main() {
 		Host:   "10.60.68.102",
 		Port:   "1204",
 	})
-
+	allEp, _ := etcdconfig.GetAllEndpoint("/test/kvstorage")
+	fmt.Println(allEp)
 	waitKey := make(chan bool)
 	<-waitKey
 }

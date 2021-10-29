@@ -66,7 +66,22 @@ func GetEndpoint(sid string, schema string) (*Endpoint, error) {
 	}
 	return nil, errors.New("not found")
 }
+func DeleteEndpoint(sid string) error {
+	if etcdClient == nil {
+		return errors.New("etcd Client null")
+	}
 
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+
+	opts := clientv3.WithPrefix()
+
+	_, err := etcdClient.Delete(ctx, sid, opts)
+	cancel()
+	if err != nil {
+		return err
+	}
+	return nil
+}
 func SetEndpoint(ep *Endpoint) error {
 	if etcdClient == nil {
 		return errors.New("etcd Client null")
