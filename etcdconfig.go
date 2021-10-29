@@ -140,6 +140,9 @@ func GetAllEndpoint(sid string) ([]*Endpoint, error) {
 }
 
 func WatchChangeService(sid string, epChan chan *Endpoint) {
+	if etcdClient == nil {
+		return
+	}
 	if epChan == nil {
 		epChan = make(chan *Endpoint, 10)
 	}

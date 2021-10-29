@@ -17,7 +17,9 @@ func main() {
 			fmt.Println("event change endpoint", ep)
 		}
 	}()
-	time.Sleep(2 * time.Second)
+	fmt.Println("begin")
+	time.Sleep(5 * time.Second)
+
 	err := etcdconfig.SetEndpoint(&etcdconfig.Endpoint{
 		SID:    "/test/kvstorage",
 		Schema: "thrift_binary",
@@ -25,7 +27,8 @@ func main() {
 		Port:   "1203",
 	})
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		time.Sleep(5 * time.Second)
 	}
 	ep, err := etcdconfig.GetEndpoint("/test/kvstorage", "thrift_binary")
 	if ep != nil {
