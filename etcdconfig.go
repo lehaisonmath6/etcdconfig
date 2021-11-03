@@ -95,6 +95,9 @@ func SetEndpoint(ep *Endpoint) error {
 	if ep.Schema != "" {
 		key = ep.SID + "/" + ep.Schema + ":" + ep.Host + ":" + ep.Port
 		value = ep.Schema + "://" + ep.Host + ":" + ep.Port
+	} else if ep.Schema == "https" {
+		key = ep.SID + "/" + ep.Schema + ":" + ep.Host
+		value = ep.Schema + "://" + ep.Host
 	} else {
 		key = ep.SID
 		value = ep.Host + ":" + ep.Port
