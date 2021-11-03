@@ -181,6 +181,14 @@ func parseEndpoint(sid, value, schema string) (*Endpoint, error) {
 		}
 		address = arr[1]
 	}
+	if schema == "https" {
+		return &Endpoint{
+			SID:    sid,
+			Host:   address,
+			Port:   "",
+			Schema: schema,
+		}, nil
+	}
 	arr := strings.Split(address, ":")
 	if len(arr) != 2 {
 		return nil, errors.New("invalid endpoint value")
