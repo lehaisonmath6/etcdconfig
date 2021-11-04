@@ -92,15 +92,16 @@ func SetEndpoint(ep *Endpoint) error {
 		return errors.New("etcd Client null")
 	}
 	var key, value string
-	if ep.Schema != "" {
-		key = ep.SID + "/" + ep.Schema + ":" + ep.Host + ":" + ep.Port
-		value = ep.Schema + "://" + ep.Host + ":" + ep.Port
+	if ep.Schema == "" {
+		key = ep.SID
+		value = ep.Host + ":" + ep.Port
+
 	} else if ep.Schema == "https" {
 		key = ep.SID + "/" + ep.Schema + ":" + ep.Host
 		value = ep.Schema + "://" + ep.Host
 	} else {
-		key = ep.SID
-		value = ep.Host + ":" + ep.Port
+		key = ep.SID + "/" + ep.Schema + ":" + ep.Host + ":" + ep.Port
+		value = ep.Schema + "://" + ep.Host + ":" + ep.Port
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 
