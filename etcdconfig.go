@@ -150,9 +150,9 @@ func WatchChangeService(sid string, epChan chan *Endpoint) {
 	if epChan == nil {
 		epChan = make(chan *Endpoint, 10)
 	}
-	opts := clientv3.WithPrefix()
+	// opts := clientv3.WithPrefix()
 
-	watchChan := etcdClient.Watch(context.Background(), sid, opts)
+	watchChan := etcdClient.Watch(context.Background(), sid, nil)
 
 	for wresp := range watchChan {
 		for _, ev := range wresp.Events {
