@@ -150,18 +150,23 @@ func WatchChangeService(sid string, epChan chan *Endpoint) {
 	if epChan == nil {
 		epChan = make(chan *Endpoint, 10)
 	}
-	// opts := clientv3.WithPrefix()
+	opts := clientv3.WithPrefix()
 
-	watchChan := etcdClient.Watch(context.Background(), sid)
+	watchChan := etcdClient.Watch(context.Background(), sid, opts)
 
 	for wresp := range watchChan {
 		for _, ev := range wresp.Events {
 			if ev.Type == clientv3.EventTypePut {
+				// if string(ev.Kv.Key) != sid {
+				// 	// fmt.Println("evkey", string(ev.Kv.Key))
+				// 	continue
+				// }
 				schema := getSchema(string(ev.Kv.Value))
 				ep, err := parseEndpoint(sid, string(ev.Kv.Value), schema)
 				if err != nil {
 					log.Println("[ERROR] etcd watch parse endpoint sid", sid, err)
 				}
+
 				epChan <- ep
 			}
 		}
